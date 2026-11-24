@@ -71,9 +71,12 @@ class ClaudeDesktopUnofficial < Formula
       AppArmor profile that keeps it on, so prefer it there:
         https://github.com/aaddrick/claude-desktop-debian#installation
 
-      For the app to show in your desktop's launcher, #{HOMEBREW_PREFIX}/share
-      must be in XDG_DATA_DIRS (`brew shellenv` adds it); log out and back
-      in after installing.
+      For the app to show in your desktop's app menu, #{HOMEBREW_PREFIX}/share
+      must be in XDG_DATA_DIRS. `brew shellenv` does not add it. On GNOME and
+      KDE, create ~/.config/environment.d/homebrew.conf containing
+        XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:#{HOMEBREW_PREFIX}/share
+      then log out and back in. Until then, start it from a terminal with
+        claude-desktop-unofficial
 
       Cowork needs KVM, QEMU and virtiofsd from your distribution. Run
         claude-desktop-unofficial --doctor

@@ -35,8 +35,14 @@ on every push.
   it there. The plain AppImage behaves the same as this formula.
 - GTK, NSS, X11 and the other system libraries Electron needs come from the
   distribution, not Homebrew. Any desktop distro has them.
-- The app appears in the launcher only if Homebrew's `share` is in
-  `XDG_DATA_DIRS` (`brew shellenv` adds it).
+- The app appears in the app menu only if Homebrew's `share` is in
+  `XDG_DATA_DIRS`, and `brew shellenv` does not add it. On GNOME and KDE,
+  put this in `~/.config/environment.d/homebrew.conf` and log out and back
+  in (adjust the prefix if yours differs):
+
+  ```
+  XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/local/share:/usr/share}:/home/linuxbrew/.linuxbrew/share
+  ```
 - Cowork needs KVM, QEMU and OVMF firmware from the distribution;
   `claude-desktop-unofficial --doctor` checks them.
 - No autostart or file-manager entries: the launcher writes those only for
