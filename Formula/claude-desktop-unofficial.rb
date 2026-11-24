@@ -1,17 +1,17 @@
 class ClaudeDesktopUnofficial < Formula
   desc "Unofficial Linux packaging of Anthropic's Claude Desktop"
   homepage "https://github.com/aaddrick/claude-desktop-debian"
-  version "6.28899.6-3.3.19"
+  version "6.28899.6-3.3.20"
   # The license covers this project's packaging. The bundled Claude Desktop
   # application is Anthropic's proprietary software.
   license any_of: ["MIT", "Apache-2.0"]
 
   if Hardware::CPU.arm?
-    url "https://github.com/aaddrick/claude-desktop-debian/releases/download/v3.3.19%2Bclaude6.28899.6/claude-desktop-unofficial-6.28899.6-3.3.19-arm64.AppImage"
-    sha256 "976c01c9ce678b6d2ae4d902fcefa89fe72e66fcc62ef8ee70e15829c2dff34c"
+    url "https://github.com/aaddrick/claude-desktop-debian/releases/download/v3.3.20%2Bclaude6.28899.6/claude-desktop-unofficial-6.28899.6-3.3.20-arm64.AppImage"
+    sha256 "cf2f41a78d61c122c5ee92654f7a9d3dd0213c20dde0e0cb468ddf62ac81eb31"
   else
-    url "https://github.com/aaddrick/claude-desktop-debian/releases/download/v3.3.19%2Bclaude6.28899.6/claude-desktop-unofficial-6.28899.6-3.3.19-amd64.AppImage"
-    sha256 "242068b7632982cedd2a582362366de81f6eb81517e74f205f3fc2a280dd13f0"
+    url "https://github.com/aaddrick/claude-desktop-debian/releases/download/v3.3.20%2Bclaude6.28899.6/claude-desktop-unofficial-6.28899.6-3.3.20-amd64.AppImage"
+    sha256 "448f0be17ce4fe1d28d8ac1c586a469fe44d9f4daf92040eb34556bf9979a2da"
   end
 
   # Release tags look like v3.3.19+claude6.28899.6: the app version comes
