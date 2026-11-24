@@ -1,0 +1,56 @@
+name: Bump formula
+
+# Follows aaddrick/claude-desktop-debian releases. Every 6 hours, checks
+# the latest release; if it is newer than the formula, rewrites the
+# version, URLs and checksums, then installs and tests the result before
+# pushing it to main. A bump that fails install or test is not pushed.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: Homebrew/actions/setup-homebrew@61b401267256bb9c047d6d1481b176d5772a0ba7  # main
+        id: brew
+
+      - name: Check for a new release
+        id: bump
+        working-directory: ${{ steps.brew.outputs.repository-path }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 scripts/bump.py
+
+      - name: Trust this tap
+        if: steps.bump.outputs.changed == 'true'
+        run: brew trust jvrachnis/claude-desktop || true
+
+      - name: Verify the bumped formula
+        if: steps.bump.outputs.changed == 'true'
+        run: |
+          brew style jvrachnis/claude-desktop/claude-desktop-unofficial
+          brew audit --strict --online jvrachnis/claude-desktop/claude-desktop-unofficial
+          brew install jvrachnis/claude-desktop/claude-desktop-unofficial
+          brew test jvrachnis/claude-desktop/claude-desktop-unofficial
+          claude-desktop-unofficial --version
+
+      - name: Push
+        if: steps.bump.outputs.changed == 'true'
+        working-directory: ${{ steps.brew.outputs.repository-path }}
+        env:
+          VERSION: ${{ steps.bump.outputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Formula/claude-desktop-unofficial.rb
+          git commit -m "claude-desktop-unofficial ${VERSION}"
+          git push

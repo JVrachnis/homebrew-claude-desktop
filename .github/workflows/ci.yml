@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  formula:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: Homebrew/actions/setup-homebrew@61b401267256bb9c047d6d1481b176d5772a0ba7  # main
+
+      - name: Trust this tap
+        run: brew trust jvrachnis/claude-desktop || true
+
+      - name: Style and audit
+        run: |
+          brew style jvrachnis/claude-desktop/claude-desktop-unofficial
+          brew audit --strict --online jvrachnis/claude-desktop/claude-desktop-unofficial
+
+      - name: Install and test
+        run: |
+          brew install jvrachnis/claude-desktop/claude-desktop-unofficial
+          brew test jvrachnis/claude-desktop/claude-desktop-unofficial
+          claude-desktop-unofficial --version
+
+      - name: Livecheck
+        run: brew livecheck jvrachnis/claude-desktop/claude-desktop-unofficial

@@ -65,6 +65,12 @@ class ClaudeDesktopUnofficial < Formula
     <<~EOS
       This is an unofficial package, not published by Anthropic.
 
+      On Ubuntu 24.04 and newer, AppArmor blocks the unprivileged user
+      namespaces Chromium's sandbox needs, so this install runs with the
+      sandbox off (`--doctor` shows it). The project's APT repo installs an
+      AppArmor profile that keeps it on, so prefer it there:
+        https://github.com/aaddrick/claude-desktop-debian#installation
+
       For the app to show in your desktop's launcher, #{HOMEBREW_PREFIX}/share
       must be in XDG_DATA_DIRS (`brew shellenv` adds it); log out and back
       in after installing.
