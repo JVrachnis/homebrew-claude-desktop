@@ -5,8 +5,7 @@ Unofficial. Installs the AppImage built by
 for discussion in [#972](https://github.com/aaddrick/claude-desktop-debian/issues/972).
 
 ```bash
-brew tap jvrachnis/claude-desktop <this-repo-url>
-brew install claude-desktop-unofficial
+brew install jvrachnis/claude-desktop/claude-desktop-unofficial
 ```
 
 ## How it works
